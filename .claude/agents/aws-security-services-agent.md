@@ -325,18 +325,27 @@ RIGHT_PANEL (1600,200 → 1960,1140)
 </mxCell>
 ```
 
-### Section Header
+### Container Box (CRITICAL - Always Include)
+
+**IMPORTANT**: All security components MUST be enclosed in a visual container box with a border, similar to how VPC and subnets are grouped.
 
 ```xml
-<!-- Security Section Label -->
-<mxCell id="security-label"
+<!-- Security Services Container Box -->
+<mxCell id="security-container"
   value="&lt;b style=&quot;font-size: 13px;&quot;&gt;Security Services&lt;/b&gt;"
-  style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=13;fontColor=#232F3E;fontStyle=1;"
+  style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=2;dashed=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;fontColor=#232F3E;fontSize=13;fontStyle=1;"
   parent="1"
   vertex="1">
-  <mxGeometry x="1610" y="740" width="200" height="30" as="geometry" />
+  <mxGeometry x="1600" y="720" width="360" height="420" as="geometry" />
 </mxCell>
 ```
+
+**Key attributes**:
+- `strokeColor=#DD344C` (red, matching security color)
+- `strokeWidth=2` (visible border)
+- `fillColor=none` (transparent background)
+- `verticalAlign=top` (label at top)
+- All security icons must be positioned within this container's bounds
 
 ### ACM Badge (Near ALB, NOT in panel)
 
@@ -557,12 +566,16 @@ Layout in SECURITY_ZONE (RIGHT_PANEL lower):
 
 ### Step 5: Generate Components
 ```
-Create XML for:
-- KMS icon
-- Secrets Manager icon
-- Optional: Security Hub, GuardDuty, Macie
-- Section header label
-- Optional: Encryption/rotation annotations
+CRITICAL - Create in this order:
+1. CONTAINER BOX FIRST (security-container) - MANDATORY
+2. KMS icon (inside container bounds)
+3. Secrets Manager icon (inside container bounds)
+4. Optional: Security Hub (inside container bounds)
+5. Optional: GuardDuty (inside container bounds)
+6. Optional: Macie (inside container bounds)
+7. Optional: Encryption/rotation annotations
+
+The container box MUST be created before any security icons!
 ```
 
 ### Step 6: Create Security Connections

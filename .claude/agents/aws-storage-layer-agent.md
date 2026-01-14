@@ -200,6 +200,28 @@ S3 → Backups
 
 ## Component XML Templates
 
+### Container Box (CRITICAL - Always Include FIRST)
+
+**IMPORTANT**: All storage components MUST be enclosed in a visual container box with a border, similar to how VPC and subnets are grouped.
+
+```xml
+<!-- Storage Services Container Box -->
+<mxCell id="storage-container"
+  value="&lt;b style=&quot;font-size: 13px;&quot;&gt;Storage Services&lt;/b&gt;"
+  style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#7AA116;strokeWidth=2;dashed=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;fontColor=#232F3E;fontSize=13;fontStyle=1;"
+  parent="1"
+  vertex="1">
+  <mxGeometry x="820" y="1200" width="720" height="160" as="geometry" />
+</mxCell>
+```
+
+**Key attributes**:
+- `strokeColor=#7AA116` (green, matching storage color)
+- `strokeWidth=2` (visible border)
+- `fillColor=none` (transparent background)
+- `verticalAlign=top` (label at top)
+- All storage icons must be positioned within this container's bounds (x: 820-1540, y: 1200-1360)
+
 ### S3 Bucket Template
 
 ```xml
@@ -209,7 +231,7 @@ S3 → Backups
   style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;"
   parent="1"
   vertex="1">
-  <mxGeometry x="900" y="1280" width="60" height="60" as="geometry" />
+  <mxGeometry x="900" y="1260" width="60" height="60" as="geometry" />
 </mxCell>
 ```
 
@@ -357,11 +379,14 @@ Determine layout:
 
 ### Step 3: Generate Components
 ```
-Create XML for each:
-- S3 buckets with descriptive labels
-- EFS (if needed)
-- FSx (if needed)
-- EBS annotations (if EBS mentioned)
+CRITICAL - Create in this order:
+1. CONTAINER BOX FIRST (storage-container) - MANDATORY
+2. S3 buckets with descriptive labels (inside container bounds)
+3. EFS (if needed, inside container bounds)
+4. FSx (if needed, inside container bounds)
+5. EBS annotations (if EBS mentioned)
+
+The container box MUST be created before any storage icons!
 ```
 
 ### Step 4: Create Connections

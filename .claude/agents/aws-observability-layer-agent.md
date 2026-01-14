@@ -295,18 +295,27 @@ RIGHT_PANEL (1600,200 → 1960,1140)
 </mxCell>
 ```
 
-### Section Header
+### Container Box (CRITICAL - Always Include)
+
+**IMPORTANT**: All observability components MUST be enclosed in a visual container box with a border, similar to how VPC and subnets are grouped.
 
 ```xml
-<!-- Observability Section Label -->
-<mxCell id="observability-label"
+<!-- Observability & Monitoring Container Box -->
+<mxCell id="observability-container"
   value="&lt;b style=&quot;font-size: 13px;&quot;&gt;Observability &amp;amp; Monitoring&lt;/b&gt;"
-  style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=13;fontColor=#232F3E;fontStyle=1;"
+  style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#E7157B;strokeWidth=2;dashed=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;fontColor=#232F3E;fontSize=13;fontStyle=1;"
   parent="1"
   vertex="1">
-  <mxGeometry x="1610" y="220" width="200" height="30" as="geometry" />
+  <mxGeometry x="1600" y="200" width="360" height="480" as="geometry" />
 </mxCell>
 ```
+
+**Key attributes**:
+- `strokeColor=#E7157B` (pink/magenta, matching observability color)
+- `strokeWidth=2` (visible border)
+- `fillColor=none` (transparent background)
+- `verticalAlign=top` (label at top)
+- All observability icons must be positioned within this container's bounds
 
 ## Monitoring Strategies by Architecture Type
 
@@ -532,11 +541,17 @@ Layout services vertically in RIGHT_PANEL:
 
 ### Step 4: Generate Components
 ```
-Create XML for:
-- Each observability service icon
-- Section header label
-- Optional: Alarm annotations
-- Optional: Log retention notes
+CRITICAL - Create in this order:
+1. CONTAINER BOX FIRST (observability-container) - MANDATORY
+2. CloudWatch icon (inside container bounds)
+3. CloudTrail icon (inside container bounds)
+4. X-Ray (if included, inside container bounds)
+5. EventBridge (if included, inside container bounds)
+6. SNS (inside container bounds)
+7. Optional: Alarm annotations
+8. Optional: Log retention notes
+
+The container box MUST be created before any observability icons!
 ```
 
 ### Step 5: Create Monitoring Connections
