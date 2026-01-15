@@ -1,0 +1,75 @@
+@startuml three-tier-webapp
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v19.0/dist
+!include AWSPuml/AWSCommon.puml
+
+' Groups
+!include AWSPuml/Groups/AWSCloud.puml
+!include AWSPuml/Groups/Region.puml
+!include AWSPuml/Groups/VPC.puml
+!include AWSPuml/Groups/AvailabilityZone.puml
+!include AWSPuml/Groups/PublicSubnet.puml
+!include AWSPuml/Groups/PrivateSubnet.puml
+
+' Services
+!include AWSPuml/General/Users.puml
+!include AWSPuml/NetworkingContentDelivery/ElasticLoadBalancingApplicationLoadBalancer.puml
+!include AWSPuml/Compute/EC2.puml
+!include AWSPuml/Database/Aurora.puml
+!include AWSPuml/NetworkingContentDelivery/VPCInternetGateway.puml
+
+' Layout
+skinparam linetype ortho
+hide stereotype
+
+' Users
+Users(users, "Users", "Web Traffic")
+
+AWSCloudGroup(cloud, "AWS Cloud") {
+  RegionGroup(region, "us-east-1") {
+    VPCGroup(vpc, "Production VPC (10.0.0.0/16)") {
+
+      ' Internet Gateway
+      VPCInternetGateway(igw, "Internet Gateway", "")
+
+      ' Availability Zone A
+      AvailabilityZoneGroup(azA, "Availability Zone A") {
+        PublicSubnetGroup(publicA, "Public Subnet A\n10.0.1.0/24") {
+          ElasticLoadBalancingApplicationLoadBalancer(alb, "Application\nLoad Balancer", "HTTP/HTTPS")
+        }
+
+        PrivateSubnetGroup(appA, "App Subnet A\n10.0.10.0/24") {
+          EC2(ec2a, "Web Server A", "t3.medium")
+        }
+
+        PrivateSubnetGroup(dataA, "Data Subnet A\n10.0.20.0/24") {
+          Aurora(auroraWriter, "Aurora Writer", "Primary")
+        }
+      }
+
+      ' Availability Zone B
+      AvailabilityZoneGroup(azB, "Availability Zone B") {
+        PublicSubnetGroup(publicB, "Public Subnet B\n10.0.2.0/24") {
+        }
+
+        PrivateSubnetGroup(appB, "App Subnet B\n10.0.11.0/24") {
+          EC2(ec2b, "Web Server B", "t3.medium")
+        }
+
+        PrivateSubnetGroup(dataB, "Data Subnet B\n10.0.21.0/24") {
+          Aurora(auroraReader, "Aurora Reader", "Replica")
+        }
+      }
+    }
+  }
+}
+
+' Relationships
+users --> igw : HTTPS
+igw --> alb
+alb --> ec2a : Port 80
+alb --> ec2b : Port 80
+ec2a --> auroraWriter : Port 3306
+ec2b --> auroraWriter : Port 3306
+auroraWriter --> auroraReader : Replication
+
+@enduml
