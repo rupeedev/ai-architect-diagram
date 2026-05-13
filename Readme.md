@@ -1,5 +1,7 @@
 # AWS Diagram Generation - Setup Guide for New Team Members
 
+> **On Windows?** Use [docs/SETUP-WINDOWS.md](docs/SETUP-WINDOWS.md) instead — same toolchain, installed via `winget` rather than Homebrew.
+
 ## Prerequisites
 
 - macOS (Intel or Apple Silicon)
